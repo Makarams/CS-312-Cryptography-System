@@ -21,6 +21,7 @@ class TextController extends Controller
 
     public function encryptText(Request $request)
     {
+        // dd($request);
         $validate = Validator::make($request->all(), [
             "key" => "required|size:16"
         ], [
@@ -57,7 +58,7 @@ class TextController extends Controller
 
         // dd('python "' . base_path() . '/scripts/main.py" -t encrypt -f text -k "' . $key . '" -p "' . $text . '"');
         $output = shell_exec('python "' . base_path() . '/scripts/main.py" -t encrypt -f text -k "' . $key . '" -p "' . $text . '" 2>&1');
-
+        // dd($output);
         $encryptedFileContent = file_get_contents(base_path() . "/storage/app/public/cipher_text.txt");
 
         return Redirect::route('text.result')->with(["type" => "encryption", "key" => $key, "text" => $text, "ciphertext" => $encryptedFileContent]);
